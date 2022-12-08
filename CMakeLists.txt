@@ -7,6 +7,18 @@ include_directories("include/")
 
 set(CMAKE_CXX_STANDARD 11)
 
+find_program(GIT git)
+
+if (GIT)
+    execute_process(
+        COMMAND
+        ${GIT} rev-parse --short HEAD
+        OUTPUT_VARIABLE GIT_HASH
+        )
+
+    add_compile_definitions(GIT_HASH=${GIT_HASH})
+endif()
+
 find_program(NUGET nuget)
 
 if(NOT NUGET)
