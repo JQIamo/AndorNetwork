@@ -164,7 +164,7 @@ namespace AndorNetwork {
             return ret;
         }
 
-        void I2CBurstWrite(BYTE i2cAddress, int32_t nBytes, const std::vector<Ice::Byte>& data, const Ice::Current&) {
+        void I2CBurstWrite(BYTE i2cAddress, int32_t nBytes, std::vector<Ice::Byte> data, const Ice::Current&) {
             checkErr(::I2CBurstWrite(
                         i2cAddress,
                         nBytes,
@@ -173,7 +173,7 @@ namespace AndorNetwork {
                     );
         }
 
-        void SetRandomTracks(int32_t numTracks, const std::vector<int32_t>& areas, const Ice::Current&) {
+        void SetRandomTracks(int32_t numTracks, std::vector<int32_t> areas, const Ice::Current&) {
             checkErr(::SetRandomTracks(
                         numTracks,
                         const_cast<int32_t *>(areas.data())
@@ -181,7 +181,7 @@ namespace AndorNetwork {
                     );
         }
 
-        Ret_DemosaicImage DemosaicImage(const std::vector<int16_t>& grey, const ColorDemosaicInfo& info, const Ice::Current&) {
+        Ret_DemosaicImage DemosaicImage(std::vector<int16_t> grey, ColorDemosaicInfo info, const Ice::Current&) {
             Ret_DemosaicImage ret;
             ret.red.resize(info.iX * info.iY);
             ret.green.resize(info.iX * info.iY);
@@ -254,9 +254,9 @@ namespace AndorNetwork {
             return buf;
         }
 
-        int32_t GetVSAmplitudeFromString(const std::string& text, const Ice::Current&) {
+        int32_t GetVSAmplitudeFromString(std::string text, const Ice::Current&) {
             int32_t index;
-            checkErr(::GetVSAmplitudeFromString(const_cast<char *>(text.c_str()), &index));
+            checkErr(::GetVSAmplitudeFromString(&text[0], &index));
 
             return index;
         }
@@ -1008,9 +1008,9 @@ namespace AndorNetwork {
             return gain;
         }
 
-        float GetQE(const std::string& sensor, float wavelength, int32_t mode, const Ice::Current&) {
+        float GetQE(std::string sensor, float wavelength, int32_t mode, const Ice::Current&) {
             float qE;
-            checkErr(::GetQE(const_cast<char *>(sensor.c_str()), wavelength, mode, &qE));
+            checkErr(::GetQE(&sensor[0], wavelength, mode, &qE));
 
             return qE;
         }
@@ -1169,8 +1169,8 @@ namespace AndorNetwork {
             return speed;
         }
 
-        void GPIBSend(int32_t id, int16_t address, const std::string& text, const Ice::Current&) {
-            checkErr(::GPIBSend(id, address, const_cast<char *>(text.c_str())));
+        void GPIBSend(int32_t id, int16_t address, std::string text, const Ice::Current&) {
+            checkErr(::GPIBSend(id, address, &text[0]));
         }
 
         BYTE I2CRead(BYTE deviceID, BYTE intAddress, const Ice::Current&) {
@@ -1195,8 +1195,8 @@ namespace AndorNetwork {
             return state;
         }
 
-        void Initialize(const std::string& dir, const Ice::Current&) {
-            checkErr(::Initialize(const_cast<char *>(dir.c_str())));
+        void Initialize(std::string dir, const Ice::Current&) {
+            checkErr(::Initialize(&dir[0]));
         }
 
         void IsAmplifierAvailable(int32_t iamp, const Ice::Current&) {
@@ -1239,31 +1239,31 @@ namespace AndorNetwork {
             checkErr(::IsTriggerModeAvailable(static_cast<int32_t>(iTriggerMode)));
         }
 
-        void OA_DeleteMode(const std::string& pcModeName, int32_t uiModeNameLen, const Ice::Current&) {
-            checkErr(::OA_DeleteMode(const_cast<char *>(pcModeName.c_str()), uiModeNameLen));
+        void OA_DeleteMode(std::string pcModeName, int32_t uiModeNameLen, const Ice::Current&) {
+            checkErr(::OA_DeleteMode(&pcModeName[0], uiModeNameLen));
         }
 
-        void OA_EnableMode(const std::string& pcModeName, const Ice::Current&) {
-            checkErr(::OA_EnableMode(const_cast<char *>(pcModeName.c_str())));
+        void OA_EnableMode(std::string pcModeName, const Ice::Current&) {
+            checkErr(::OA_EnableMode(&pcModeName[0]));
         }
 
-        float OA_GetFloat(const std::string& pcModeName, const std::string& pcModeParam, const Ice::Current&) {
+        float OA_GetFloat(std::string pcModeName, std::string pcModeParam, const Ice::Current&) {
             float fFloatValue;
-            checkErr(::OA_GetFloat(const_cast<char *>(pcModeName.c_str()), const_cast<char *>(pcModeParam.c_str()), &fFloatValue));
+            checkErr(::OA_GetFloat(&pcModeName[0], &pcModeParam[0], &fFloatValue));
 
             return fFloatValue;
         }
 
-        int32_t OA_GetInt(const std::string& pcModeName, const std::string& pcModeParam, const Ice::Current&) {
+        int32_t OA_GetInt(std::string pcModeName, std::string pcModeParam, const Ice::Current&) {
             int32_t iintValue;
-            checkErr(::OA_GetInt(const_cast<char *>(pcModeName.c_str()), const_cast<char *>(pcModeParam.c_str()), &iintValue));
+            checkErr(::OA_GetInt(&pcModeName[0], &pcModeParam[0], &iintValue));
 
             return iintValue;
         }
 
-        int32_t OA_GetNumberOfAcqParams(const std::string& pcModeName, const Ice::Current&) {
+        int32_t OA_GetNumberOfAcqParams(std::string pcModeName, const Ice::Current&) {
             unsigned int puiNumberOfParams;
-            checkErr(::OA_GetNumberOfAcqParams(const_cast<char *>(pcModeName.c_str()), &puiNumberOfParams));
+            checkErr(::OA_GetNumberOfAcqParams(&pcModeName[0], &puiNumberOfParams));
 
             return puiNumberOfParams;
         }
@@ -1282,24 +1282,24 @@ namespace AndorNetwork {
             return puiNumberOfModes;
         }
 
-        void OA_Initialize(const std::string& pcFilename, int32_t uiFileNameLen, const Ice::Current&) {
-            checkErr(::OA_Initialize(const_cast<char *>(pcFilename.c_str()), uiFileNameLen));
+        void OA_Initialize(std::string pcFilename, int32_t uiFileNameLen, const Ice::Current&) {
+            checkErr(::OA_Initialize(&pcFilename[0], uiFileNameLen));
         }
 
-        void OA_SetFloat(const std::string& pcModeName, const std::string& pcModeParam, float fFloatValue, const Ice::Current&) {
-            checkErr(::OA_SetFloat(const_cast<char *>(pcModeName.c_str()), const_cast<char *>(pcModeParam.c_str()), fFloatValue));
+        void OA_SetFloat(std::string pcModeName, std::string pcModeParam, float fFloatValue, const Ice::Current&) {
+            checkErr(::OA_SetFloat(&pcModeName[0], &pcModeParam[0], fFloatValue));
         }
 
-        void OA_SetInt(const std::string& pcModeName, const std::string& pcModeParam, int32_t iintValue, const Ice::Current&) {
-            checkErr(::OA_SetInt(const_cast<char *>(pcModeName.c_str()), const_cast<char *>(pcModeParam.c_str()), iintValue));
+        void OA_SetInt(std::string pcModeName, std::string pcModeParam, int32_t iintValue, const Ice::Current&) {
+            checkErr(::OA_SetInt(&pcModeName[0], &pcModeParam[0], iintValue));
         }
 
-        void OA_SetString(const std::string& pcModeName, const std::string& pcModeParam, const std::string& pcStringValue, int32_t uiStringLen, const Ice::Current&) {
-            checkErr(::OA_SetString(const_cast<char *>(pcModeName.c_str()), const_cast<char *>(pcModeParam.c_str()), const_cast<char *>(pcStringValue.c_str()), uiStringLen));
+        void OA_SetString(std::string pcModeName, std::string pcModeParam, std::string pcStringValue, int32_t uiStringLen, const Ice::Current&) {
+            checkErr(::OA_SetString(&pcModeName[0], &pcModeParam[0], &pcStringValue[0], uiStringLen));
         }
 
-        void OA_WriteToFile(const std::string& pcFileName, int32_t uiFileNameLen, const Ice::Current&) {
-            checkErr(::OA_WriteToFile(const_cast<char *>(pcFileName.c_str()), uiFileNameLen));
+        void OA_WriteToFile(std::string pcFileName, int32_t uiFileNameLen, const Ice::Current&) {
+            checkErr(::OA_WriteToFile(&pcFileName[0], uiFileNameLen));
         }
 
         void OutAuxPort(int32_t port, int32_t state, const Ice::Current&) {
@@ -1310,40 +1310,40 @@ namespace AndorNetwork {
             checkErr(::PrepareAcquisition());
         }
 
-        void SaveAsBmp(const std::string& path, const std::string& palette, int32_t ymin, int32_t ymax, const Ice::Current&) {
-            checkErr(::SaveAsBmp(const_cast<char *>(path.c_str()), const_cast<char *>(palette.c_str()), ymin, ymax));
+        void SaveAsBmp(std::string path, std::string palette, int32_t ymin, int32_t ymax, const Ice::Current&) {
+            checkErr(::SaveAsBmp(&path[0], &palette[0], ymin, ymax));
         }
 
-        void SaveAsCommentedSif(const std::string& path, const std::string& comment, const Ice::Current&) {
-            checkErr(::SaveAsCommentedSif(const_cast<char *>(path.c_str()), const_cast<char *>(comment.c_str())));
+        void SaveAsCommentedSif(std::string path, std::string comment, const Ice::Current&) {
+            checkErr(::SaveAsCommentedSif(&path[0], &comment[0]));
         }
 
-        void SaveAsEDF(const std::string& szPath, int32_t iMode, const Ice::Current&) {
-            checkErr(::SaveAsEDF(const_cast<char *>(szPath.c_str()), iMode));
+        void SaveAsEDF(std::string szPath, int32_t iMode, const Ice::Current&) {
+            checkErr(::SaveAsEDF(&szPath[0], iMode));
         }
 
-        void SaveAsFITS(const std::string& szFileTitle, int32_t typ, const Ice::Current&) {
-            checkErr(::SaveAsFITS(const_cast<char *>(szFileTitle.c_str()), typ));
+        void SaveAsFITS(std::string szFileTitle, int32_t typ, const Ice::Current&) {
+            checkErr(::SaveAsFITS(&szFileTitle[0], typ));
         }
 
-        void SaveAsRaw(const std::string& szFileTitle, int32_t typ, const Ice::Current&) {
-            checkErr(::SaveAsRaw(const_cast<char *>(szFileTitle.c_str()), typ));
+        void SaveAsRaw(std::string szFileTitle, int32_t typ, const Ice::Current&) {
+            checkErr(::SaveAsRaw(&szFileTitle[0], typ));
         }
 
-        void SaveAsSif(const std::string& path, const Ice::Current&) {
-            checkErr(::SaveAsSif(const_cast<char *>(path.c_str())));
+        void SaveAsSif(std::string path, const Ice::Current&) {
+            checkErr(::SaveAsSif(&path[0]));
         }
 
-        void SaveAsSPC(const std::string& path, const Ice::Current&) {
-            checkErr(::SaveAsSPC(const_cast<char *>(path.c_str())));
+        void SaveAsSPC(std::string path, const Ice::Current&) {
+            checkErr(::SaveAsSPC(&path[0]));
         }
 
-        void SaveAsTiff(const std::string& path, const std::string& palette, int32_t position, int32_t typ, const Ice::Current&) {
-            checkErr(::SaveAsTiff(const_cast<char *>(path.c_str()), const_cast<char *>(palette.c_str()), position, typ));
+        void SaveAsTiff(std::string path, std::string palette, int32_t position, int32_t typ, const Ice::Current&) {
+            checkErr(::SaveAsTiff(&path[0], &palette[0], position, typ));
         }
 
-        void SaveAsTiffEx(const std::string& path, const std::string& palette, int32_t position, int32_t typ, int32_t mode, const Ice::Current&) {
-            checkErr(::SaveAsTiffEx(const_cast<char *>(path.c_str()), const_cast<char *>(palette.c_str()), position, typ, mode));
+        void SaveAsTiffEx(std::string path, std::string palette, int32_t position, int32_t typ, int32_t mode, const Ice::Current&) {
+            checkErr(::SaveAsTiffEx(&path[0], &palette[0], position, typ, mode));
         }
 
         void SelectSensorPort(int32_t port, const Ice::Current&) {
@@ -1794,8 +1794,8 @@ namespace AndorNetwork {
             checkErr(::SetShutterEx(typ, mode, closingtime, openingtime, extmode));
         }
 
-        void SetSifComment(const std::string& comment, const Ice::Current&) {
-            checkErr(::SetSifComment(const_cast<char *>(comment.c_str())));
+        void SetSifComment(std::string comment, const Ice::Current&) {
+            checkErr(::SetSifComment(&comment[0]));
         }
 
         void SetSingleTrack(int32_t centre, int32_t height, const Ice::Current&) {
@@ -1806,8 +1806,8 @@ namespace AndorNetwork {
             checkErr(::SetSingleTrackHBin(bin));
         }
 
-        void SetSpool(int32_t active, int32_t method, const std::string& path, int32_t framebuffersize, const Ice::Current&) {
-            checkErr(::SetSpool(active, method, const_cast<char *>(path.c_str()), framebuffersize));
+        void SetSpool(int32_t active, int32_t method, std::string path, int32_t framebuffersize, const Ice::Current&) {
+            checkErr(::SetSpool(active, method, &path[0], framebuffersize));
         }
 
         void SetSpoolThreadCount(int32_t count, const Ice::Current&) {

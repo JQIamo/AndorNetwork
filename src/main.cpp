@@ -2,34 +2,19 @@
 #include <Ice/Ice.h>
 #include "AndorI.h"
  
-using namespace std;
 using namespace AndorNetwork;
  
 int main(int argc, char* argv[]) {
-    int status = 0;
-
-    Ice::CommunicatorPtr ic;
     try {
-        ic = Ice::initialize(argc, argv);
-        Ice::ObjectAdapterPtr adapter = ic->createObjectAdapterWithEndpoints("AndorNetworkAdapter", "default -p 10000");
-        Ice::ObjectPtr object = new AndorI;
-        adapter->add(object, ic->stringToIdentity("AndorNetwork"));
+        Ice::CommunicatorHolder ich;
+        auto adapter = ich->createObjectAdapterWithEndpoints("AndorNetworkAdapter", "default -p 10000");
+        auto object = std::make_shared<AndorI>();
+        adapter->add(object, ich->stringToIdentity("AndorNetwork"));
         adapter->activate();
-        ic->waitForShutdown();
-    } catch (const Ice::Exception& e) {
-        cerr << e << endl;
-        status = 1;
-    } catch (const char* msg) {
-        cerr << msg << endl;
-        status = 1;
+        ich->waitForShutdown();
+    } catch (const std::exception& e) {
+        cerr << e.what() << endl;
+        return 1;
     }
-    if (ic) {
-        try {
-            ic->destroy();
-        } catch (const Ice::Exception& e) {
-            cerr << e << endl;
-            status = 1;
-        }
-    }
-    return status;
+    return 0;
 }
