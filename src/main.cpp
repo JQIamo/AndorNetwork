@@ -4,6 +4,7 @@
 #include <Ice/Ice.h>
 #include "AndorI.h"
 
+#define XSTR(x) STR(x)
 #define STR(x) #x
  
 using namespace AndorNetwork;
@@ -12,10 +13,10 @@ static void show_usage(std::string name)
 {
     std::cerr << "ZeroC-ICE Wrapper of Andor SDK\n"
 #ifdef GIT_HASH
-        << "(build rev. " << STR(GIT_HASH) << ")\n"
+        << "(build rev. " << XSTR(GIT_HASH) << ")\n"
 #endif
         << "\n"
-        << "Usage: " << name << " <option(s)>"
+        << "Usage: " << name << " <option(s)> \n"
         << "Options:\n"
         << "\t-h,--help\t\tShow this help message\n"
         << "\t-b,--bind BIND\tSpecify the interface to bind to. Default: `*`, i.e. listen to all interface.\n"
