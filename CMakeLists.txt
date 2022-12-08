@@ -6,7 +6,6 @@ link_directories("lib/")
 include_directories("include/")
 
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_VERBOSE_MAKEFILE ON)
 
 find_program(NUGET nuget)
 
@@ -31,15 +30,12 @@ list(APPEND ICE_GENERATED_FILES
     "Andor.h"
     )
 
-set(Ice_DEBUG ON)
-
 find_package(Ice 3.7.0 
     REQUIRED COMPONENTS
-    Ice
     Ice++11
-    IceDiscovery
-    IceLocatorDiscovery
-    IceSSL
+    IceDiscovery++11
+    IceLocatorDiscovery++11
+    IceSSL++11
     )
 
 foreach(SLICE_DIR ${Ice_SLICE_DIRS})
@@ -61,20 +57,18 @@ add_executable(AndorNetwork
 
 target_include_directories(AndorNetwork PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
 
-#add_definitions(ICE_CPP11_MAPPING)
+add_compile_definitions(ICE_CPP11_MAPPING)
 
 target_link_libraries(AndorNetwork
     PRIVATE
     "atmcd64m.lib"
-    Ice::Ice
     Ice::Ice++11
-    Ice::IceDiscovery
-    Ice::IceLocatorDiscovery
-    Ice::IceSSL
+    Ice::IceDiscovery++11
+    Ice::IceLocatorDiscovery++11
+    Ice::IceSSL++11
     )
 
 target_sources(AndorNetwork
     PRIVATE
     ${ICE_GENERATED_FILES}
     )
-
