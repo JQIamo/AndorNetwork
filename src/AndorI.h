@@ -15,6 +15,13 @@ namespace AndorNetwork {
                 throw e;
             }
         }
+        void checkErr(AndorErrNo _errno) {
+            if (_errno != AndorErrNo::SUCCESS) {
+                AndorError e;
+                e.errNo = _errno;
+                throw e;
+            }
+        }
     public:
         //
         // ----- Manually added functions -----
@@ -268,6 +275,51 @@ namespace AndorNetwork {
 
             return ret;
         }
+
+        Ret_GetTemperature GetTemperature(const Ice::Current&) {
+            int32_t temperature;
+            AndorErrNo status = static_cast<AndorErrNo>(::GetTemperature(&temperature));
+            Ret_GetTemperature ret;
+
+            switch(status) {
+                case AndorErrNo::TEMPERATURE_OFF:
+                case AndorErrNo::TEMPERATURE_NOT_STABILIZED:
+                case AndorErrNo::TEMPERATURE_STABILIZED:
+                case AndorErrNo::TEMPERATURE_NOT_REACHED:
+                case AndorErrNo::TEMPERATURE_DRIFT:
+                    ret.status = status;
+                    break;
+                default:
+                    checkErr(status);
+            }
+
+            ret.temperature = temperature;
+
+            return ret;
+        }
+
+        Ret_GetTemperatureF GetTemperatureF(const Ice::Current&) {
+            float temperature;
+            AndorErrNo status = static_cast<AndorErrNo>(::GetTemperatureF(&temperature));
+            Ret_GetTemperatureF ret;
+
+            switch(status) {
+                case AndorErrNo::TEMPERATURE_OFF:
+                case AndorErrNo::TEMPERATURE_NOT_STABILIZED:
+                case AndorErrNo::TEMPERATURE_STABILIZED:
+                case AndorErrNo::TEMPERATURE_NOT_REACHED:
+                case AndorErrNo::TEMPERATURE_DRIFT:
+                    ret.status = status;
+                    break;
+                default:
+                    checkErr(status);
+            }
+
+            ret.temperature = temperature;
+
+            return ret;
+        }
+
 
         //
         // ----- Mostly generated code, but heavily edited to please the complier -----
@@ -1078,11 +1130,11 @@ namespace AndorNetwork {
             return index;
         }
 
-        int32_t GetStatus(const Ice::Current&) {
+        AndorErrNo GetStatus(const Ice::Current&) {
             int32_t status;
             checkErr(::GetStatus(&status));
 
-            return status;
+            return static_cast<AndorErrNo>(status);
         }
 
         int32_t GetTECStatus(const Ice::Current&) {
@@ -1090,20 +1142,6 @@ namespace AndorNetwork {
             checkErr(::GetTECStatus(&piFlag));
 
             return piFlag;
-        }
-
-        int32_t GetTemperature(const Ice::Current&) {
-            int32_t temperature;
-            checkErr(::GetTemperature(&temperature));
-
-            return temperature;
-        }
-
-        float GetTemperatureF(const Ice::Current&) {
-            float temperature;
-            checkErr(::GetTemperatureF(&temperature));
-
-            return temperature;
         }
 
         int32_t GetTemperaturePrecision(const Ice::Current&) {
@@ -1786,12 +1824,12 @@ namespace AndorNetwork {
             checkErr(::SetSensorPortMode(mode));
         }
 
-        void SetShutter(int32_t typ, int32_t mode, int32_t closingtime, int32_t openingtime, const Ice::Current&) {
-            checkErr(::SetShutter(typ, mode, closingtime, openingtime));
+        void SetShutter(int32_t typ, ShutterMode mode, int32_t closingtime, int32_t openingtime, const Ice::Current&) {
+            checkErr(::SetShutter(typ, static_cast<int32_t>(mode), closingtime, openingtime));
         }
 
-        void SetShutterEx(int32_t typ, int32_t mode, int32_t closingtime, int32_t openingtime, int32_t extmode, const Ice::Current&) {
-            checkErr(::SetShutterEx(typ, mode, closingtime, openingtime, extmode));
+        void SetShutterEx(int32_t typ, ShutterMode mode, int32_t closingtime, int32_t openingtime, int32_t extmode, const Ice::Current&) {
+            checkErr(::SetShutterEx(typ, static_cast<int32_t>(mode), closingtime, openingtime, extmode));
         }
 
         void SetSifComment(std::string comment, const Ice::Current&) {

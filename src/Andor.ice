@@ -134,7 +134,6 @@ module AndorNetwork {
         IMAGE = 4
     };
 
-
     enum TriggerMode {
         INTERNAL = 0,
         EXTERNAL = 1,
@@ -145,7 +144,6 @@ module AndorNetwork {
         EXTERNAL_CHARGE_SHIFTING = 12
     };
 
-
     enum AcquisitionMode {
         SINGLE_SCAN = 1,
         ACCUMULATE = 2,
@@ -153,7 +151,6 @@ module AndorNetwork {
         FAST_KINETICS = 4,
         RUN_TILL_ABORT = 5
     };
-
 
     enum SpoolMode {
         FILE_32_BIT_SEQUENCE = 0,
@@ -167,7 +164,6 @@ module AndorNetwork {
         COMPRESSED_MULTIPLE_DIRECTORY_STRUCTURE = 8
     };
 
-
     enum GateMode {
         FIRE_ANDED_WITH_THE_GATE_INPUT = 0,
         GATING_CONTROLLED_FROM_FIRE_PULSE_ONLY = 1,
@@ -176,7 +172,6 @@ module AndorNetwork {
         GATING_OFF_CONTINUOUSLY = 4,
         GATE_USING_DDG = 5
     };
-
 
     enum ShutterMode {
         FULLY_AUTO = 0,
@@ -189,6 +184,176 @@ module AndorNetwork {
     enum AT_VersionInfoId {
         AT_SDKVersion = 0x40000000, 
         AT_DeviceDriverVersion = 0x40000001
+    };
+
+    enum AndorCap_AcquisitionMode {
+        SINGLE = 1,
+        VIDEO = 2,
+        ACCUMULATE = 4,
+        KINETIC = 8,
+        FRAMETRANSFER = 16,
+        FASTKINETICS = 32,
+        OVERLAP = 64
+    };
+
+    enum AndorCap_ReadMode {
+        FULLIMAGE = 1,
+        SUBIMAGE = 2,
+        SINGLETRACK = 4,
+        FVB = 8,
+        MULTITRACK = 16,
+        RANDOMTRACK = 32,
+        MULTITRACKSCAN = 64
+    };
+
+    enum AndorCap_TriggerMode {
+        INTERNAL = 1,
+        EXTERNAL = 2,
+        EXTERNAL_FVB_EM = 4,
+        CONTINOUS = 8,
+        EXTERNALSTART = 16,
+        EXTERNALEXPOSURE = 32,
+        INVERTED = 0x40,
+        EXTERNAL_CHARGESHIFTING = 0x80
+    };
+
+    enum AndorCap_CameraType {
+        PDA = 0,
+        IXON = 1,
+        ICCD = 2,
+        EMCCD = 3,
+        CCD = 4,
+        ISTAR = 5,
+        VIDEO = 6,
+        IDUS = 7,
+        NEWTON = 8,
+        SURCAM = 9 ,
+        USBICCD = 10,
+        LUCA = 11,
+        RESERVED = 12,
+        IKON = 13,
+        INGAAS = 14,
+        IVAC = 15,
+        UNPROGRAMMED = 16,
+        CLARA = 17,
+        USBISTAR = 18,
+        SIMCAM = 19,
+        NEO = 20,
+        IXONULTRA = 21,
+        VOLMOS = 22,
+        IVAC_CCD = 23,
+        ASPEN = 24,
+        ASCENT = 25,
+        ALTA = 26,
+        ALTAF = 27,
+        IKONXL = 28,
+        RES1 = 29
+    };
+
+    enum AndorCap_PixelMode {
+        x8BIT = 1,
+        x14BIT = 2,
+        x16BIT = 4,
+        x32BIT = 8,
+        MONO = 0x000000,
+        RGB = 0x010000,
+        CMY = 0x020000
+    };
+
+    enum AndorCap_SetFunction {
+        VREADOUT = 0x01,
+        HREADOUT = 0x02,
+        TEMPERATURE = 0x04,
+        MCPGAIN = 0x08,
+        EMCCDGAIN = 0x10,
+        BASELINECLAMP = 0x20,
+        VSAMPLITUDE = 0x40,
+        HIGHCAPACITY = 0x80,
+        BASELINEOFFSET = 0x0100,
+        PREAMPGAIN = 0x0200,
+        CROPMODE = 0x0400,
+        DMAPARAMETERS = 0x0800,
+        HORIZONTALBIN = 0x1000,
+        MULTITRACKHRANGE = 0x2000,
+        RANDOMTRACKNOGAPS = 0x4000,
+        EMADVANCED = 0x8000,
+        GATEMODE = 0x010000,
+        DDGTIMES = 0x020000,
+        IOC = 0x040000,
+        INTELLIGATE = 0x080000,
+        INSERTION_DELAY = 0x100000,
+        GATE_STEP = 0x200000,
+        TRIGGERTERMINATION = 0x400000,
+        EXTENDEDNIR = 0x800000,
+        SPOOLTHREADCOUNT = 0x1000000,
+        REGISTERPACK = 0x2000000,
+        PRESCANS = 0x4000000,
+        GATEWIDTHSTEP = 0x8000000,
+        EXTENDED_CROP_MODE = 0x10000000,
+        SUPERKINETICS = 0x20000000,
+        TIMESCAN = 0x40000000
+    };
+
+    enum AndorCap_GetFunction {
+        TEMPERATURE = 0x01,
+        TARGETTEMPERATURE = 0x02,
+        TEMPERATURERANGE = 0x04,
+        DETECTORSIZE = 0x08,
+        MCPGAIN = 0x10,
+        EMCCDGAIN = 0x20,
+        HVFLAG = 0x40,
+        GATEMODE = 0x80,
+        DDGTIMES = 0x0100,
+        IOC = 0x0200,
+        INTELLIGATE = 0x0400,
+        INSERTION_DELAY = 0x0800,
+        GATESTEP = 0x1000,
+        PHOSPHORSTATUS = 0x2000,
+        MCPGAINTABLE = 0x4000,
+        BASELINECLAMP = 0x8000,
+        GATEWIDTHSTEP = 0x10000
+    };
+
+    enum AndorCap_Feature {
+        POLLING = 1,
+        EVENTS = 2,
+        SPOOLING = 4,
+        SHUTTER = 8,
+        SHUTTEREX = 16,
+        EXTERNAL_12C = 32,
+        SATURATIONEVENT = 64,
+        FANCONTROL = 128,
+        MIDFANCONTROL = 256,
+        TEMPERATUREDURINGACQUISITION = 512,
+        KEEPCLEANCONTROL = 1024,
+        DDGLITE = 0x0800,
+        FTEXTERNALEXPOSURE = 0x1000,
+        KINETICEXTERNALEXPOSURE = 0x2000,
+        DACCONTROL = 0x4000,
+        METADATA = 0x8000,
+        IOCONTROL = 0x10000,
+        PHOTONCOUNTING = 0x20000,
+        COUNTCONVERT = 0x40000,
+        DUALMODE = 0x80000,
+        OPTACQUIRE = 0x100000,
+        REALTIMESPURIOUSNOISEFILTER = 0x200000,
+        POSTPROCESSSPURIOUSNOISEFILTER = 0x400000,
+        DUALPREAMPGAIN = 0x800000,
+        DEFECT_CORRECTION = 0x1000000,
+        STARTOFEXPOSURE_EVENT = 0x2000000,
+        ENDOFEXPOSURE_EVENT = 0x4000000,
+        CAMERALINK = 0x8000000,
+        FIFOFULL_EVENT = 0x10000000,
+        SENSOR_PORT_CONFIGURATION = 0x20000000,
+        SENSOR_COMPENSATION = 0x40000000,
+        // IRIG_SUPPORT = 0x80000000
+    };
+
+    enum AndorCap_EMGain {
+        x8_BIT = 1,
+        x12_BIT = 2,
+        LINEAR12 = 4,
+        REAL12 = 8
     };
 
     exception AndorError {
@@ -400,6 +565,16 @@ module AndorNetwork {
         int maxtemp;
     };
 
+    struct Ret_GetTemperature {
+        int temperature;
+        AndorErrNo status;
+    };
+
+    struct Ret_GetTemperatureF {
+        float temperature;
+        AndorErrNo status;
+    };
+
     struct Ret_GetTriggerLevelRange {
         float minimum;
         float maximum;
@@ -534,10 +709,10 @@ module AndorNetwork {
         int GetSizeOfCircularBuffer() throws AndorError;
         Ret_GetSoftwareVersion GetSoftwareVersion() throws AndorError;
         int GetSpoolProgress() throws AndorError;
-        int GetStatus() throws AndorError;
+        AndorErrNo GetStatus() throws AndorError;
         int GetTECStatus() throws AndorError;
-        int GetTemperature() throws AndorError;
-        float GetTemperatureF() throws AndorError;
+        Ret_GetTemperature GetTemperature() throws AndorError;
+        Ret_GetTemperatureF GetTemperatureF() throws AndorError;
         int GetTemperaturePrecision() throws AndorError;
         Ret_GetTemperatureRange GetTemperatureRange() throws AndorError;
         int GetTotalNumberImagesAcquired() throws AndorError;
@@ -692,8 +867,8 @@ module AndorNetwork {
         float SetRingExposureTimes(int numTimes) throws AndorError;
         void SetSaturationEvent(long event) throws AndorError;
         void SetSensorPortMode(int mode) throws AndorError;
-        void SetShutter(int typ, int mode, int closingtime, int openingtime) throws AndorError;
-        void SetShutterEx(int typ, int mode, int closingtime, int openingtime, int extmode) throws AndorError;
+        void SetShutter(int typ, ShutterMode mode, int closingtime, int openingtime) throws AndorError;
+        void SetShutterEx(int typ, ShutterMode mode, int closingtime, int openingtime, int extmode) throws AndorError;
         void SetSifComment(string comment) throws AndorError;
         void SetSingleTrack(int centre, int height) throws AndorError;
         void SetSingleTrackHBin(int bin) throws AndorError;
