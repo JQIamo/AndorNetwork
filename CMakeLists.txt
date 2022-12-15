@@ -12,11 +12,11 @@ find_program(GIT git)
 if (GIT)
     execute_process(
         COMMAND
-        ${GIT} rev-parse --short HEAD
-        OUTPUT_VARIABLE GIT_HASH
+        ${GIT} describe --tags
+        OUTPUT_VARIABLE GIT_BUILD_NUMBER
         )
 
-    add_compile_definitions(GIT_HASH=${GIT_HASH})
+    add_compile_definitions(GIT_BUILD_NUMBER=${GIT_BUILD_NUMBER})
 endif()
 
 find_program(NUGET nuget)

@@ -12,8 +12,8 @@ using namespace AndorNetwork;
 static void show_usage(std::string name)
 {
     std::cerr << "ZeroC-ICE Wrapper of Andor SDK\n"
-#ifdef GIT_HASH
-        << "(build rev. " << XSTR(GIT_HASH) << ")\n"
+#ifdef GIT_BUILD_NUMBER
+        << "(build rev. " << XSTR(GIT_BUILD_NUMBER) << ")\n"
 #endif
         << "\n"
         << "Usage: " << name << " <option(s)> \n"
