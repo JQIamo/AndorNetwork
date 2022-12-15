@@ -4,6 +4,9 @@ import Ice
 import time
 import numpy as np
 import AndorNetwork
+
+# When importing it as a module from inside a module, it might be more convenient to use a hacky way:
+# > from (...import path of Andor_ice.py file...).Andor_ice import _M_AndorNetwork as AndorNetwork
  
 status = 0
 ic = None
@@ -16,7 +19,8 @@ try:
  
     andor.Initialize("")
 
-    andor.AbortAcquisition()
+    if andor.GetStatus() == AndorNetwork.AndorErrNo.ACQUIRING:
+        andor.AbortAcquisition()
 
     def _check_ice_enum(ice_enum_type, mask):
         return [name for flag, name in ice_enum_type._enumerators.items() if flag & mask]
