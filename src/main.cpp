@@ -3,17 +3,15 @@
 #include <string>
 #include <Ice/Ice.h>
 #include "AndorI.h"
+#include "build_number.h"
 
-#define XSTR(x) STR(x)
-#define STR(x) #x
- 
 using namespace AndorNetwork;
 
 static void show_usage(std::string name)
 {
     std::cerr << "ZeroC-ICE Wrapper of Andor SDK\n"
 #ifdef GIT_BUILD_NUMBER
-        << "(build rev. " << XSTR(GIT_BUILD_NUMBER) << ")\n"
+        << "(build rev. " << GIT_BUILD_NUMBER << ")\n"
 #endif
         << "\n"
         << "Usage: " << name << " <option(s)> \n"

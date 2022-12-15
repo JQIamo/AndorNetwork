@@ -8,17 +8,6 @@ include_directories("include/")
 set(CMAKE_CXX_STANDARD 11)
 
 find_program(GIT git)
-
-if (GIT)
-    execute_process(
-        COMMAND
-        ${GIT} describe --tags
-        OUTPUT_VARIABLE GIT_BUILD_NUMBER
-        )
-
-    add_compile_definitions(GIT_BUILD_NUMBER=${GIT_BUILD_NUMBER})
-endif()
-
 find_program(NUGET nuget)
 
 if(NOT NUGET)
@@ -84,3 +73,17 @@ target_sources(AndorNetwork
     PRIVATE
     ${ICE_GENERATED_FILES}
     )
+
+if (GIT)
+    add_custom_command(
+        OUTPUT "build_number.h"
+        COMMAND
+        ${CMAKE_COMMAND} -DGIT="${GIT}" -P ${CMAKE_SOURCE_DIR}/build_number.cmake
+        )
+
+    target_sources(AndorNetwork
+        PRIVATE
+        "build_number.h"
+        )
+endif()
+
